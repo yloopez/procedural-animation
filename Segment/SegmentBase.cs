@@ -1,9 +1,11 @@
+using System.Diagnostics;
 using SplashKitSDK;
 
 namespace ProceduralAnimations
 {
     public abstract class SegmentBase
     {
+        public static bool ShowFigures = false;
         public Point2D LeftPoint = new Point2D();
         public Point2D RightPoint = new Point2D();
         public float X { get; set; }
@@ -87,9 +89,12 @@ namespace ProceduralAnimations
 
         public virtual void Draw(Window window)
         {
-            //window.FillCircle(Color, X, Y, Radius);
-            //window.DrawCircle(Color, X, Y, Radius);
-            //SegmentUtility.DrawSides(window, LeftPoint, RightPoint, Color);
+            if (ShowFigures)
+            {
+                window.DrawCircle(Color, X, Y, Radius);
+                SegmentUtility.DrawSides(window, LeftPoint, RightPoint, Color);
+            }
+            
         }
     }
 }

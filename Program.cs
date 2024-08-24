@@ -1,4 +1,3 @@
-
 namespace ProceduralAnimations
 {
     public class Program
@@ -6,7 +5,7 @@ namespace ProceduralAnimations
         public static void Main()
         {
            MainApplication app = new MainApplication();
-            app.Run(); 
+            app.Run();
         }
     }
 }

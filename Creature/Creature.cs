@@ -28,8 +28,9 @@ namespace ProceduralAnimations
                     segment.UpdatePosition(segment.PreviousSegment!.X, segment.PreviousSegment.Y);
             }
         }
-        public virtual void Draw(Window window)
+        public virtual void Draw(Window window, Color color)
         {
+            Paint(window, color);
             foreach (var segment in Segments)
             {
                 segment.Draw(window);
@@ -52,6 +53,7 @@ namespace ProceduralAnimations
                         DrawLine(window, Color.Black, headsegment.ExtraPoints[i].X,headsegment.ExtraPoints[i].Y, headsegment.ExtraPoints[i+1].X,headsegment.ExtraPoints[i+1].Y);
                     }
                 }
+                
             }
         }
 
@@ -62,6 +64,46 @@ namespace ProceduralAnimations
                 LineWidth = 3
             };
             window.DrawLine(color, x1, y1, x2, y2, myOptions);
+        }
+
+        private void Paint(Window window, Color color)
+        {
+            for(int i = 0; i< Segments.Count - 1; i++)
+            {
+                var currentSegment = Segments[i];
+                var nextSegment = Segments[i + 1];
+
+                Point2D left1 = currentSegment.LeftPoint;
+                Point2D right1 = currentSegment.RightPoint;
+                Point2D left2 = nextSegment.LeftPoint;
+                Point2D right2 = nextSegment.RightPoint;
+                
+                // Draw and fill the triangles
+                // window.DrawTriangle(Color.Green, left1.X, left1.Y, right1.X, right1.Y, left2.X, left2.Y);
+                // window.DrawTriangle(Color.Green, right1.X, right1.Y, right2.X, right2.Y, left2.X, left2.Y);
+                window.FillTriangle(color, left1.X, left1.Y, right1.X, right1.Y, left2.X, left2.Y);
+                window.FillTriangle(color, right1.X, right1.Y, right2.X, right2.Y, left2.X, left2.Y);
+                if(Segments[i] is HeadSegment headSegment)
+                {
+                    Point2D point1 = headSegment.ExtraPoints[1];
+                    Point2D point2 = headSegment.ExtraPoints[2];
+                    Point2D point3 = headSegment.ExtraPoints[3];
+
+                    window.FillTriangle(color, right1.X, right1.Y, point1.X, point1.Y, point2.X, point2.Y);
+                    window.FillTriangle(color, right1.X, right1.Y, point2.X, point2.Y, point3.X, point3.Y);
+                    window.FillTriangle(color, right1.X, right1.Y, point3.X, point3.Y, left1.X, left1.Y);
+                }
+                if (Segments[i + 1] is TailSegment tailSegment)
+                {
+                    Point2D point1 = tailSegment.ExtraPoints[1];
+                    Point2D point2 = tailSegment.ExtraPoints[2];
+                    Point2D point3 = tailSegment.ExtraPoints[3];
+
+                    window.FillTriangle(color, left2.X, left2.Y, point1.X, point1.Y, point2.X, point2.Y);
+                    window.FillTriangle(color, left2.X, left2.Y, point2.X, point2.Y, point3.X, point3.Y);
+                    window.FillTriangle(color, left2.X, left2.Y, point3.X, point3.Y, right2.X, right2.Y);
+                }
+            }
         }
     }
 }

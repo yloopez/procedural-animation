@@ -4,6 +4,8 @@ namespace ProceduralAnimations
 {
     public class Fish: Creature
     {
+        //Fin
+        Bitmap fin = new Bitmap("ellipseBitmap", "fin.png");
 
         public Fish()
         {
@@ -12,13 +14,14 @@ namespace ProceduralAnimations
             Segments = 
             [
                 new HeadSegment(40, constrainDistance, 400, 300, Color.Black),
-                new Segment(45, constrainDistance, 400, 300, Color.Black),
-                new FinSegment(50, constrainDistance, 400, 300, Color.Black),
-                new Segment(50, constrainDistance, 400, 300, Color.Black),
+                new Segment(45, constrainDistance, 400, 300, Color.Green),
+                new Segment(50, constrainDistance, 400, 300, Color.Green),
+                new Segment(45, constrainDistance, 400, 300, Color.Green),
                 new Segment(40, constrainDistance, 400, 300, Color.Green),
-                new FinSegment(35, constrainDistance, 400, 300, Color.Green),
+                new Segment(35, constrainDistance, 400, 300, Color.Green),
                 new Segment(30, constrainDistance, 400, 300, Color.Green),
-                new TailSegment(25, 30, 400, 300, Color.Green)
+                new Segment(25, constrainDistance, 400, 300, Color.Green),
+                new TailSegment(20, 30, 400, 300, Color.Green)
             ];
 
             ChainSegments();
@@ -33,10 +36,29 @@ namespace ProceduralAnimations
 
             base.Update(mouseX,mouseY);
         }
-        // For now nothis is different but it will change
-        public override void Draw(Window window)
+        
+        public override void Draw(Window window, Color color)
         {
-            base.Draw(window);
+            Point2D leftFin = Segments[3].LeftPoint;
+            Point2D rightFin = Segments[3].RightPoint;
+
+            // Create DrawingOptions
+            DrawingOptions myOptions = new DrawingOptions
+            {
+                Angle = 1
+            };
+
+
+
+
+
+            // Draw the left fin
+            window.DrawBitmap(fin, leftFin.X - fin.Width / 2, leftFin.Y - fin.Height / 2, myOptions);
+
+            // Draw the right fin
+            window.DrawBitmap(fin, rightFin.X - fin.Width / 2, rightFin.Y - fin.Height / 2);
+
+            base.Draw(window, color);
         }
     }
 }
