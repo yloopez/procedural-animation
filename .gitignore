@@ -11,6 +11,7 @@
 *.suo
 *.user
 *.sln.docstates
+ConcatenatedCode.cs
 
 # Build results
 [Dd]ebug/

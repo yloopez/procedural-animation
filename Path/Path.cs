@@ -1,4 +1,3 @@
-using System;
 using SplashKitSDK;
 
 namespace ProceduralAnimations
@@ -7,7 +6,7 @@ namespace ProceduralAnimations
     {
         private float _x;
         private float _y;
-        private float _speed;     // The speed of movement
+        private float _speed;
         private Vector2D _direction;
         private Random _random;
         
@@ -30,7 +29,7 @@ namespace ProceduralAnimations
             _speed = speed;
             _amplitude = amplitude;
             _frequency = frequency;
-            _phase = 0; // Initial phase shift
+            _phase = 0;
             _random = new Random();
             _x = SplashKit.ScreenWidth() / 2;
             _y = SplashKit.ScreenHeight() / 2;

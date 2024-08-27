@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using SplashKitSDK;
 
 namespace ProceduralAnimations

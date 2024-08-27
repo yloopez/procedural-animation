@@ -1,4 +1,3 @@
-using System.Collections;
 using SplashKitSDK;
 
 namespace ProceduralAnimations
@@ -9,37 +8,38 @@ namespace ProceduralAnimations
         public Snake()
         {
             float constrainDistance = 30;
+            Color segmentColor = Color.Black;
 
             Segments = 
             [
-                new HeadSegment(30, constrainDistance, 400, 300, Color.Black),
-                new Segment(40, constrainDistance, 400, 300, Color.Black),
-                new Segment(30, constrainDistance, 400, 300, Color.Green),
-                new Segment(30, constrainDistance, 400, 300, Color.Green),
-                new Segment(25, constrainDistance, 400, 300, Color.Green),
-                new Segment(25, constrainDistance, 400, 300, Color.Green),
-                new Segment(25, constrainDistance, 400, 300, Color.Green),
-                new Segment(25, constrainDistance, 400, 300, Color.Green),
-                new Segment(20, constrainDistance, 400, 300, Color.Green),
-                new Segment(20, constrainDistance, 400, 300, Color.Green),
-                new Segment(20, constrainDistance, 400, 300, Color.Green),
-                new Segment(15, constrainDistance, 400, 300, Color.Green),
-                new Segment(15, constrainDistance, 400, 300, Color.Green),
-                new Segment(15, constrainDistance, 400, 300, Color.Green),
-                new Segment(15, constrainDistance, 400, 300, Color.Green),
-                new Segment(10, constrainDistance, 400, 300, Color.Green),
-                new Segment(10, constrainDistance, 400, 300, Color.Green),
-                new Segment(10, constrainDistance, 400, 300, Color.Green),
-                new Segment(10, constrainDistance, 400, 300, Color.Green),
-                new Segment(5, constrainDistance, 400, 300, Color.Green),
-                new Segment(5, constrainDistance, 400, 300, Color.Green),
-                new Segment(5, constrainDistance, 400, 300, Color.Green),
-                new Segment(5, constrainDistance, 400, 300, Color.Green),
-                new Segment(3, constrainDistance, 400, 300, Color.Green),
-                new Segment(3, constrainDistance, 400, 300, Color.Green),
-                new Segment(3, constrainDistance, 400, 300, Color.Green),
-                new Segment(3, constrainDistance, 400, 300, Color.Green),
-                new TailSegment(3, constrainDistance, 400, 300, Color.Green)
+                new HeadSegment(30, constrainDistance, 400, 300, segmentColor),
+                new Segment(40, constrainDistance, 400, 300, segmentColor),
+                new Segment(30, constrainDistance, 400, 300, segmentColor),
+                new Segment(30, constrainDistance, 400, 300, segmentColor),
+                new Segment(25, constrainDistance, 400, 300, segmentColor),
+                new Segment(25, constrainDistance, 400, 300, segmentColor),
+                new Segment(25, constrainDistance, 400, 300, segmentColor),
+                new Segment(25, constrainDistance, 400, 300, segmentColor),
+                new Segment(20, constrainDistance, 400, 300, segmentColor),
+                new Segment(20, constrainDistance, 400, 300, segmentColor),
+                new Segment(20, constrainDistance, 400, 300, segmentColor),
+                new Segment(15, constrainDistance, 400, 300, segmentColor),
+                new Segment(15, constrainDistance, 400, 300, segmentColor),
+                new Segment(15, constrainDistance, 400, 300, segmentColor),
+                new Segment(15, constrainDistance, 400, 300, segmentColor),
+                new Segment(10, constrainDistance, 400, 300, segmentColor),
+                new Segment(10, constrainDistance, 400, 300, segmentColor),
+                new Segment(10, constrainDistance, 400, 300, segmentColor),
+                new Segment(10, constrainDistance, 400, 300, segmentColor),
+                new Segment(5, constrainDistance, 400, 300, segmentColor),
+                new Segment(5, constrainDistance, 400, 300, segmentColor),
+                new Segment(5, constrainDistance, 400, 300, segmentColor),
+                new Segment(5, constrainDistance, 400, 300, segmentColor),
+                new Segment(3, constrainDistance, 400, 300, segmentColor),
+                new Segment(3, constrainDistance, 400, 300, segmentColor),
+                new Segment(3, constrainDistance, 400, 300, segmentColor),
+                new Segment(3, constrainDistance, 400, 300, segmentColor),
+                new TailSegment(3, constrainDistance, 400, 300, segmentColor)
             ];
 
             ChainSegments();
