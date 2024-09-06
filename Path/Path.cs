@@ -1,83 +1,105 @@
 using SplashKitSDK;
+using System;
 
 namespace ProceduralAnimations
 {
-    public class Path
+    public interface IPath
+    {
+        float X { get; }
+        float Y { get; }
+        void Update(float deltaTime);
+        void Draw(Window window);
+    }
+
+    public interface IPathStrategy
+    {
+        void CalculateNextPosition(ref float x, ref float y, float deltaTime, float speed);
+    }
+
+    public class RandomPathStrategy : IPathStrategy
+    {
+        private Random _random = new Random();
+
+        public void CalculateNextPosition(ref float x, ref float y, float deltaTime, float speed)
+        {
+            float angle = (float)(_random.NextDouble() * 2 * Math.PI);
+            x += (float)Math.Cos(angle) * speed * deltaTime;
+            y += (float)Math.Sin(angle) * speed * deltaTime;
+        }
+    }
+
+    public class HorizontalOscillatingPathStrategy : IPathStrategy
+    {
+        private bool _movingRight = true;
+
+        public void CalculateNextPosition(ref float x, ref float y, float deltaTime, float speed)
+        {
+            if (_movingRight)
+            {
+                x += speed * deltaTime;
+            }
+            else
+            {
+                x -= speed * deltaTime;
+            }
+        }
+
+        public void HandleBoundary(ref float x, float windowWidth)
+        {
+            if (x >= windowWidth)
+            {
+                x = windowWidth;
+                _movingRight = false;
+            }
+            else if (x <= 0)
+            {
+                x = 0;
+                _movingRight = true;
+            }
+        }
+    }
+
+    public class Path : IPath
     {
         private float _x;
         private float _y;
+        public float X => _x;
+        public float Y => _y;
         private float _speed;
-        private Vector2D _direction;
-        private Random _random;
-        
-        // Ondulatory motion variables
-        private float _amplitude; // Amplitude of the wave
-        private float _frequency; // Frequency of the wave
-        private float _phase;     // Phase shift for the wave
+        private float _windowWidth;
+        private float _windowHeight;
+        private IPathStrategy _pathStrategy;
 
-        public float X
+        public Path(float speed, float windowWidth, float windowHeight, IPathStrategy pathStrategy = null)
         {
-            get { return _x; }
-        }
-        public float Y
-        {
-            get { return _y; }
-        }
-
-        public Path(float speed, float amplitude, float frequency)
-        {
+            _x = windowWidth / 2;
+            _y = windowHeight / 2;
             _speed = speed;
-            _amplitude = amplitude;
-            _frequency = frequency;
-            _phase = 0;
-            _random = new Random();
-            _x = SplashKit.ScreenWidth() / 2;
-            _y = SplashKit.ScreenHeight() / 2;
-            _direction = GetRandomDirection();
-        }
-
-        private Vector2D GetRandomDirection()
-        {
-            float angle = (float)(_random.NextDouble() * 2 * Math.PI); // Random angle
-            return new Vector2D
-            {
-                X = (float)Math.Cos(angle),
-                Y = (float)Math.Sin(angle)
-            };
+            _windowWidth = windowWidth;
+            _windowHeight = windowHeight;
+            _pathStrategy = pathStrategy ?? new RandomPathStrategy();
         }
 
         public void Update(float deltaTime)
         {
-            // Update the position with ondulatory motion
-            _x += (float)_direction.X * _speed * deltaTime;
-            _y += (float)_direction.Y * _speed * deltaTime;
-
-            // Apply ondulatory motion
-            _y += (float)(Math.Sin(_phase) * _amplitude);
-            _phase += _frequency * deltaTime; // Increase phase based on frequency
-
-            // Check for boundary collisions
-            if (_x < 0 || _x > SplashKit.ScreenWidth())
+            _pathStrategy.CalculateNextPosition(ref _x, ref _y, deltaTime, _speed);
+            
+            // Handle boundaries
+            if (_pathStrategy is HorizontalOscillatingPathStrategy horizontalStrategy)
             {
-                _direction.X *= -1; // Reverse direction on X axis
-                _x = Math.Max(0, Math.Min(_x, SplashKit.ScreenWidth())); // Ensure position is within bounds
+                horizontalStrategy.HandleBoundary(ref _x, _windowWidth);
             }
-            if (_y < 0 || _y > SplashKit.ScreenHeight())
+            else
             {
-                _direction.Y *= -1; // Reverse direction on Y axis
-                _y = Math.Max(0, Math.Min(_y, SplashKit.ScreenHeight())); // Ensure position is within bounds
-            }
-
-            // Occasionally change direction
-            if (_random.NextDouble() < 0.01) // Adjust the probability to control frequency of direction change
-            {
-                _direction = GetRandomDirection();
+                // Keep within window bounds for other strategies
+                _x = Math.Clamp(_x, 0, _windowWidth);
+                _y = Math.Clamp(_y, 0, _windowHeight);
             }
         }
 
         public void Draw(Window window)
         {
-            window.FillCircle(Color.Red, _x, _y, 5);
+            window.FillCircle(Color.Red, X, Y, 5);
         }
     }
 }

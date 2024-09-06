@@ -19,7 +19,8 @@ namespace ProceduralAnimations
         {
             Snake mySnake = new Snake();
             Fish myFish = new Fish();
-            Path randomPath = new Path((float)300, 5, 2);
+            IPath randomPath = new Path(300, _window.Width, _window.Height);
+            IPath horizontalPath = new Path(300, _window.Width, _window.Height, new HorizontalOscillatingPathStrategy());
 
             while (!_window.CloseRequested)
             {
@@ -31,8 +32,8 @@ namespace ProceduralAnimations
                 _timer.Reset();
 
                 
-                randomPath.Update(deltaTime);
-                randomPath.Draw(_window);
+                horizontalPath.Update(deltaTime);
+                horizontalPath.Draw(_window);
                 //Here should be passed the direction of the object or pointer to follow, in progres...
                 if(SwitchCreatures)
                 {
@@ -41,7 +42,7 @@ namespace ProceduralAnimations
                 }
                 else
                 {
-                    myFish.Update(randomPath.X,randomPath.Y);
+                    myFish.Update(horizontalPath.X,horizontalPath.Y);
                     myFish.Draw(_window, Color.LightBlue);
                 }
 
