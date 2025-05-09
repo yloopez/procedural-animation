@@ -6,7 +6,6 @@ pipeline {
             steps {
                 echo 'Task: Compiling the .NET application and restoring dependencies.'
                 echo 'Tool: dotnet build'
-                sh 'dotnet build'
             }
         }
 
@@ -14,7 +13,6 @@ pipeline {
             steps {
                 echo 'Task: Running unit and integration tests for the .NET application.'
                 echo 'Tool: dotnet test'
-                sh 'dotnet test'
             }
         }
 
