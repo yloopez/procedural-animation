@@ -2,6 +2,17 @@ pipeline {
     agent any
 
     stages {
+        stage('Trigger Info') {
+            steps {
+                script {
+                    def causes = currentBuild.rawBuild.getCauses()
+                    for (cause in causes) {
+                        echo "Build triggered by: ${cause.getShortDescription()}"
+                    }
+                }
+            }
+        }
+
         stage('Build') {
             steps {
                 echo 'Task: Compiling the .NET application and restoring dependencies.'
